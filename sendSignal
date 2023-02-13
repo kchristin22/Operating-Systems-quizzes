@@ -1,0 +1,37 @@
+# This function sends a signal to a process
+function sendSignal
+
+	set arg_num (count $argv)
+	
+	
+	if test $arg_num -ne 2
+		echo "Bad usage"
+		return
+	end
+
+	string match -qr '^-?[0-9]+(\.?[0-9]*)?$' -- "$argv[1]"
+
+	if test $status -eq 0
+		if test $argv[1] -gt 31 -o $argv[1] -lt 1
+			echo "Signal error"
+			return
+		end
+	else
+		set sig_exists (kill -l | grep -o -- $argv[1])
+		if test -z $sig_exists #if it is empty
+			echo "Signal error"
+			return
+		end
+	end
+
+
+	set proc_exists (ps -p $argv[2] -o comm=)
+	if test -z "$proc_exists"
+		echo "Process not found"
+		return
+	end
+
+	kill -- "-$argv[1]" $argv[2]
+
+
+end # function end

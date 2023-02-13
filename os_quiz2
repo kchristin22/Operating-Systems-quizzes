@@ -1,0 +1,38 @@
+# This function runs in fish shell and sorts the files that start from $first_character and have an extension of $extension in a folder based on their size
+
+
+function sort_files -a extension first_character
+
+set result (find ~/os_quiz2 -name "$first_character*$extension") # replace the path with the folder you want to sort 
+set counter (count $result)
+
+if test ! $counter -eq 0
+
+	mkdir ~/$first_character
+
+	for i in (seq $counter)
+		set bytes (wc -c $result[$i]| cut -f1 -d " ")
+		if test $bytes -lt 1024
+			mkdir -p ~/$first_character/bytes
+			cp $result[$i] ~/$first_character/bytes
+		else if test $bytes -lt 1048576
+			mkdir -p ~/$first_character/kilobytes
+			cp $result[$i] ~/$first_character/kilobytes
+		else if test $bytes -lt 1073741824
+			mkdir -p ~/$first_character/megabytes
+			cp $result[$i] ~/$first_character/megabytes
+		else
+			mkdir -p ~/$first_character/gigabytes
+			cp $result[$i] ~/$first_character/gigabytes
+		end
+	end
+end
+
+end #end of function
+
+#other possible implementations:
+#1) find ./ -name "$first_character*" -exec wc -c {} +
+#2) if find ./ -name "$first_character*.$extension" | xargs -n1 wc -c > 1023  #prints the bytes
+
+
+
