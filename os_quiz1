@@ -5,8 +5,8 @@ echo "\"One day, in retrospect, the years of struggle will strike you as the mos
 #create directory structure
 mkdir -p "Famous Quotes"/Freud/"Character Building"
 # go to different directory
-#cd "Famous Quotes"/Freud/"Character Building"
+cd "Famous Quotes"/Freud/"Character Building"
 # move file to new directory
-#mv ../../../"Freud quote".txt ./
+mv ../../../"Freud quote".txt ./
 
 # or you can skip cd command by: mv ./"Freud quote".txt ./"Famous Quotes"/Freud/"Character Building"
